@@ -18,11 +18,10 @@ const SignUp = ()=> {
 
   const onSignUp = async (data) => {
     try {
-      const response = await fetch("http://localhost:8080/sign_up_user", {
+      const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_HOST + "/sign_up_user", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // You may need to include additional headers, such as authentication headers
         },
         body: JSON.stringify(data),
       });
@@ -36,7 +35,6 @@ const SignUp = ()=> {
           localStorage.setItem("session_created", JSON.stringify(sessionCreation));
         }
         
-        console.log("User created with id" + result.id);
         routeToPage("/");
       }else{
         console.log(result.error);

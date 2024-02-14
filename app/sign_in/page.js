@@ -15,11 +15,10 @@ const SignIn = () => {
 
   const onSignIn = async (data) => {
     try {
-      const res = await fetch("http://localhost:8080/sign_in_user", {
+      const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_HOST + "/sign_in_user", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // You may need to include additional headers, such as authentication headers
         },
         body: JSON.stringify(data),
       });
@@ -34,7 +33,6 @@ const SignIn = () => {
           localStorage.setItem("session_created", JSON.stringify(sessionCreation));
         }
         
-        console.log("User created with id" + result.id);
         routeToPage("/");
       }else{
         console.log(result.error);

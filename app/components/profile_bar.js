@@ -38,10 +38,9 @@ const ProfileBar = ({userFound=true}) => {
   };
 
   const logOut = ()=> {
-    if (typeof window !== "undefined" && window.localStorage) {
-      localStorage.removeItem("user_info");
-      localStorage.removeItem("session_created");
-    }
+    localStorage.removeItem("user_info");
+    localStorage.removeItem("session_created");
+    
     togglePopover();
     
     if(onProfilePage) {
