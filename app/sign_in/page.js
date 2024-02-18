@@ -1,10 +1,10 @@
 "use client";
+import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { Form, useForm } from "react-hook-form";
 
 const SignIn = () => {
   const router = useRouter();
-
   const {handleSubmit, control, register} = useForm();
 
   const routeToPage = (page="")=> {
@@ -25,15 +25,10 @@ const SignIn = () => {
       const result = await res.json();
 
       if(!(result || {}).error){
-        if (typeof window !== "undefined" && window.localStorage) {
-          localStorage.setItem("user_info", JSON.stringify(result));
-
-          const sessionCreation = new Date();
-
-          localStorage.setItem("session_created", JSON.stringify(sessionCreation));
-        }
+        setCookie("session_id", result.token, {expires: new Date(result.expires_at)});
+        setCookie("session_created", result.issued_at);
         
-        routeToPage("/");
+        router.push("/", {}, { initialProps: { session_id: result.token } });
       }else{
         console.log(result.error);
       }

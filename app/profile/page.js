@@ -1,14 +1,13 @@
 
-"use client";
+// "use client";
 import Image from "next/image";
-import TopBar from "../components/top_bar";
+import TopBar from "../common_components/top_bar";
 import moment from "moment";
+import { Paper } from "@mui/material";
+import getUser from "../api/get_user";
 
-const Profile = ()=> {
-  let user = {}; 
-  if (typeof window !== "undefined" && window.localStorage) {
-    user = JSON.parse(localStorage.getItem("user_info")) || {};
-  }
+const Profile = async ()=> {
+  const user = await getUser();
   const userFound = !!((user || {}).id);
   const fname = String(user.first_name || "").toUpperCase();
   const lname = String(user.last_name || "").toUpperCase();
@@ -21,7 +20,7 @@ const Profile = ()=> {
       <TopBar userFound={userFound}/>
       <div className="p-4">
         <p className="text-5xl font-black bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">YOUR PROFILE</p>
-        <div className="mt-8 p-2 border-2 rounded-lg shadow-2xl bg-orange-200 flex space-x-2">
+        <Paper className="mt-8 p-2 border-2 rounded-lg flex space-x-2" elevation={3}>
           <div className="w-80 h-80 rounded-md bg-zinc-500 truncate">
             <Image src="/account.svg" alt="No Profile" height={100} width={100}/>
           </div>
@@ -63,9 +62,8 @@ const Profile = ()=> {
             </div>
         
           </div>
-        </div>
+        </Paper>
       </div>
-      
       
     </div>
   );

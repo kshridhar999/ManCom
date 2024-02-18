@@ -3,7 +3,6 @@ import ProfileBar from "./profile_bar";
 
 function TopBar({userFound=true}) {
   // const router = useRouter();
-    
   
   // const routeToPage = (page="")=> {
   //   if(page) {

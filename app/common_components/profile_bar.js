@@ -1,4 +1,5 @@
 "use client";
+import { deleteCookie, getCookie } from "cookies-next";
 import { getURL } from "next/dist/shared/lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -6,7 +7,6 @@ import { useEffect, useState } from "react";
 
 const ProfileBar = ({userFound=true}) => {
   const router = useRouter();
-
   const currentUrl = getURL();
   const onProfilePage = (currentUrl || "").includes("profile");
 
@@ -25,31 +25,24 @@ const ProfileBar = ({userFound=true}) => {
 
   useEffect(() => {
     setCounter(()=> {
-      const sessionStart = new Date(JSON.parse(localStorage.getItem("session_created")));
+      const sessionStart = new Date(getCookie("session_created"));
       const curTime = new Date();
       return Math.floor((curTime.getTime() - sessionStart.getTime())/1000);
     });
   }, []);
 
-  const routeToPage = (page = "") => {
-    if (page) {
-      router.push(page);
-    }
-  };
-
   const logOut = ()=> {
-    localStorage.removeItem("user_info");
-    localStorage.removeItem("session_created");
+    deleteCookie("session_id");
+    deleteCookie("session_created");
     
     togglePopover();
-    
-    if(onProfilePage) {
+    if(onProfilePage){
       router.push("/");
     }else{
       router.refresh();
     }
+    
   };
-
 
   const togglePopover = () => {
     setPopoverVisible((prevVisible) => !prevVisible);
@@ -60,7 +53,6 @@ const ProfileBar = ({userFound=true}) => {
       <button onClick={togglePopover} className="focus:outline-none rounded-full bg-transparent truncate bg-white shadow-md">
         <Image src="/account.svg" alt="No Profile" height={32} width={32} />
       </button>
-      
 
       <div
         className={`${
@@ -83,12 +75,12 @@ const ProfileBar = ({userFound=true}) => {
               <div className="flex justify-between items-center">
                 {!onProfilePage ? <button
                   className="p-2 bg-emerald-500 text-white rounded-md hover:shadow-md w-20"
-                  onClick={()=>routeToPage("/profile")}
+                  onClick={()=>router.push("/profile")}
                 >
                     Profile
                 </button> : <button
                   className="p-2 bg-emerald-500 text-white rounded-md hover:shadow-md w-20"
-                  onClick={()=>routeToPage("/")}
+                  onClick={()=>router.push("/")}
                 >
                     Home
                 </button>}
@@ -107,7 +99,7 @@ const ProfileBar = ({userFound=true}) => {
                 <p className="text-gray-700">Existing User?</p>
                 <button
                   className="p-2 bg-emerald-300 text-white rounded-md hover:shadow-md w-20"
-                  onClick={() => routeToPage("/sign_in")}
+                  onClick={() => router.push("/sign_in")}
                 >
               Sign In
                 </button>
@@ -116,7 +108,7 @@ const ProfileBar = ({userFound=true}) => {
                 <p className="text-gray-700 ">New User?</p>
                 <button
                   className="p-2 bg-emerald-300 text-white rounded-md hover:shadow-md w-20"
-                  onClick={() => routeToPage("/sign_up")}
+                  onClick={() => router.push("/sign_up")}
                 >
               Sign Up
                 </button>
