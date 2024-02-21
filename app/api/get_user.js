@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 
 const getUser = async () => {
-  try { 
+  try {
     const res = await fetch(process.env.BACKEND_HOST + "/get_user", 
       {
         method: "GET",

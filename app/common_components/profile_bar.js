@@ -1,11 +1,13 @@
 "use client";
+import { IconButton } from "@mui/material";
 import { deleteCookie, getCookie } from "cookies-next";
 import { getURL } from "next/dist/shared/lib/utils";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const ProfileBar = ({userFound=true}) => {
+const ProfileBar = ({user={}}) => {
   const router = useRouter();
   const currentUrl = getURL();
   const onProfilePage = (currentUrl || "").includes("profile");
@@ -15,13 +17,13 @@ const ProfileBar = ({userFound=true}) => {
   const [counter, setCounter] = useState(0);
 
   useEffect(() => {
-    if(userFound){
+    if(user?.id){
       const inter = setInterval(() => {
         setCounter((pv)=> pv += 1);
       }, 1000);
       return ()=> clearInterval(inter);
     }
-  }, [userFound]);
+  }, [user?.id]);
 
   useEffect(() => {
     setCounter(()=> {
@@ -50,10 +52,10 @@ const ProfileBar = ({userFound=true}) => {
 
   return (
     <div className="relative text-sm">
-      <button onClick={togglePopover} className="focus:outline-none rounded-full bg-transparent truncate bg-white shadow-md">
-        <Image src="/account.svg" alt="No Profile" height={32} width={32} />
-      </button>
-
+      <IconButton onClick={togglePopover} size="small" sx={{height:"32px", width:"32px", borderRadius:"50%", overflow:"hidden"}}>
+        <Image src={user?.image_url || "/account.svg"} alt="No Profile" height={32} width={32} />
+      </IconButton>
+      
       <div
         className={`${
           popoverVisible
@@ -63,7 +65,7 @@ const ProfileBar = ({userFound=true}) => {
       >
         <div className="p-4">
 
-          {userFound ? 
+          {user?.id ? 
             <div className="flex flex-col justify-between">
               <div className="text-gray-700 flex justify-between items-center pb-2">
                 <p className="text-gray-700 font-bold text-md">Time Active:
@@ -73,17 +75,8 @@ const ProfileBar = ({userFound=true}) => {
                 </p>
               </div>
               <div className="flex justify-between items-center">
-                {!onProfilePage ? <button
-                  className="p-2 bg-emerald-500 text-white rounded-md hover:shadow-md w-20"
-                  onClick={()=>router.push("/profile")}
-                >
-                    Profile
-                </button> : <button
-                  className="p-2 bg-emerald-500 text-white rounded-md hover:shadow-md w-20"
-                  onClick={()=>router.push("/")}
-                >
-                    Home
-                </button>}
+                 
+                <Link href={!onProfilePage ? "/profile" : "/"} className="p-2 bg-emerald-500 text-white rounded-md hover:shadow-md w-20 text-center align-middle" >{!onProfilePage ? "Profile": "Home"}</Link>
 
                 <button
                   className="p-2 bg-yellow-500 text-white rounded-md hover:shadow-md w-20"
@@ -97,21 +90,15 @@ const ProfileBar = ({userFound=true}) => {
             <>
               <div className="mb-4 flex justify-between items-center">
                 <p className="text-gray-700">Existing User?</p>
-                <button
-                  className="p-2 bg-emerald-300 text-white rounded-md hover:shadow-md w-20"
-                  onClick={() => router.push("/sign_in")}
-                >
+                <Link href="/sign_in" className="p-2 bg-emerald-300 text-white rounded-md hover:shadow-md w-20 text-center align-middle">
               Sign In
-                </button>
+                </Link>
               </div>
               <div className="flex justify-between items-center">
                 <p className="text-gray-700 ">New User?</p>
-                <button
-                  className="p-2 bg-emerald-300 text-white rounded-md hover:shadow-md w-20"
-                  onClick={() => router.push("/sign_up")}
-                >
+                <Link href="/sign_up" className="p-2 bg-emerald-300 text-white rounded-md hover:shadow-md w-20 text-center align-middle">
               Sign Up
-                </button>
+                </Link>
               </div></>}
           
         </div>

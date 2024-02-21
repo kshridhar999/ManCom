@@ -1,0 +1,14 @@
+.profile_holder {
+    .image_actions {
+        visibility: hidden;
+    }
+}
+
+.profile_holder:hover {
+    .image_bg {
+        filter: blur(4px);
+    }
+    .image_actions {
+        visibility: visible;
+    }
+}

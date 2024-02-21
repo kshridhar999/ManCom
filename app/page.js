@@ -4,14 +4,12 @@ import TopBar from "./common_components/top_bar";
 export default async function Home() {
   let user = await getUser() || {}; 
 
-  const userFound = !!user.id;
-
   const fname = String(user.first_name || "").toUpperCase();
   const lname = String(user.last_name || "").toUpperCase();
   
   return (
-    <div>
-      <TopBar userFound={userFound}/>
+    <div className="relative">
+      <TopBar user={user}/>
 
       <div  className="p-4">
         <div className="text-5xl font-black bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">HI THERE, {fname || lname || "VISITOR"}</div>

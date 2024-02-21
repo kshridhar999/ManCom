@@ -1,17 +1,12 @@
 "use client";
 import { setCookie } from "cookies-next";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Form, useForm } from "react-hook-form";
 
 const SignIn = () => {
   const router = useRouter();
   const {handleSubmit, control, register} = useForm();
-
-  const routeToPage = (page="")=> {
-    if(page) {
-      router.push(page);
-    }
-  };
 
   const onSignIn = async (data) => {
     try {
@@ -28,7 +23,7 @@ const SignIn = () => {
         setCookie("session_id", result.token, {expires: new Date(result.expires_at)});
         setCookie("session_created", result.issued_at);
         
-        router.push("/", {}, { initialProps: { session_id: result.token } });
+        router.push("/");
       }else{
         console.log(result.error);
       }
@@ -54,7 +49,7 @@ const SignIn = () => {
 
         <div className="flex justify-between py-2 items-center">
           <p>Don&apos;t have an account?</p>
-          <button className="p-2 bg-slate-500 text-white rounded-md hover:shadow-md" onClick={()=> routeToPage("/sign_up")}>Sign Up</button>
+          <Link href="/sign_up" className="p-2 bg-slate-500 text-white rounded-md hover:shadow-md text-center align-middle">Sign Up</Link>
         </div>
       </div>
     
