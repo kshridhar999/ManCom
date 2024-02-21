@@ -41,8 +41,8 @@ const Profile = async ()=> {
   const userFound = !!(user.id);
 
   return (
-    <div>
-      <TopBar userFound={userFound}/>
+    <>
+      <TopBar user={user}/>
       {userFound ? <div className="p-4">
         <p className="text-5xl font-black bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">YOUR PROFILE</p>
         <Paper className="mt-8 p-2 border-2 rounded-lg flex space-x-2" elevation={3}>
@@ -69,7 +69,7 @@ const Profile = async ()=> {
       </div>:
         <NoUserFound />
       }
-    </div>
+    </>
   );
 };
 
