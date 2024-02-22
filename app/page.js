@@ -11,7 +11,7 @@ export default async function Home() {
     <div className="relative">
       <TopBar user={user}/>
 
-      <div  className="p-4">
+      <div className="p-4">
         <div className="text-5xl font-black bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">HI THERE, {fname || lname || "VISITOR"}</div>
 
         <div className="mt-8 text-xl font-light">

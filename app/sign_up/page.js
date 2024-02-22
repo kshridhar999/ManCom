@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { onSignUp } from "./actions/signUp";
+import toast from "react-hot-toast";
 
 const SignUp = ()=> {
   const router = useRouter();
@@ -11,13 +12,13 @@ const SignUp = ()=> {
       await onSignUp(formData);
       router.push("/");
     } catch (error) {
-      console.error("Error signing up:", error);
+      toast.error("Error signing up: ", error);
     }
   };
   return (
     <div className="h-screen flex justify-center align-center bg-gradient-to-br from-sky-500 to-indigo-500">
       <div className="w-96 p-4 flex flex-col justify-center align-center">
-        <form className="shadow-md p-4 rounded-md  bg-slate-100"  action={handleSignUp}>
+        <form className="shadow-md p-4 rounded-md  bg-slate-100" action={handleSignUp}>
           <div className="flex space-x-2 py-2 items-center justify-between">
             <label htmlFor="first_name">First Name</label>
             <input type="text" name="first_name" className="border-2 h-10 rounded-sm" autoComplete=""/>

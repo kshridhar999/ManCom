@@ -11,6 +11,7 @@
     "plugin:jsx-a11y/recommended",
     "plugin:import/errors",
     "plugin:import/warnings"
+    // "plugin:prettier/recommended"
     // Add other plugins or configurations as needed
   ],
   "parserOptions": {
@@ -33,13 +34,16 @@
         "html": true
       }
     ],
-    "import/no-unused-modules": "error"
+    "import/no-unused-modules": "error",
+    "react/jsx-props-no-multi-spaces": ["error"],
+    "react/jsx-indent-props": ["error", 2]
     // Add more rules as needed
   },
   "plugins": [
     "react", 
     "jsx-a11y",
     "import"
+    // "eslint-plugin-prettier"
     // Add other plugins as needed
   ],
   "settings": {
