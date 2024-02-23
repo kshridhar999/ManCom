@@ -1,12 +1,9 @@
 "use server";
-
+import { getError, isErrorful } from "../../utils/responseFunctions";
 import { cookies } from "next/headers";
 
 export const onSignUp = async (formData) => {
-  const reqObj = {};
-  for (const pair of formData.entries()) {
-    reqObj[pair[0]]= pair[1];
-  }
+  const reqObj = Object.fromEntries(formData.entries());
  
   const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_HOST + "/sign_up_user", {
     method: "POST",
@@ -17,11 +14,11 @@ export const onSignUp = async (formData) => {
   });
   const result = await res.json();
 
-  if(!(result || {}).error){
+  if(!isErrorful(result)){
     cookies().set("session_id", result.token, {expires: new Date(result.expires_at)});
     cookies().set("session_created", result.issued_at);
   }else{
-    throw new Error(result.error);
+    return getError(result);
   }
   
 };

@@ -4,38 +4,56 @@ import { useRouter } from "next/navigation";
 import { onSignIn } from "./actions/signIn";
 import toast from "react-hot-toast";
 import { useFormStatus } from "react-dom";
-import { Button } from "@mui/material";
+import { signInSchema } from "../input_configs";
 
 const SignInButton = () => {
   const { pending } = useFormStatus();
   return (
-    <Button
+    <button
       className="w-full mt-4 p-2 bg-emerald-500 text-white rounded-md hover:shadow-md hover:bg-emerald-700"
       type="submit"
       disabled={pending}
       variant="contained"
     >
       {pending ? "Signing In..." : "Sign In"}
-    </Button>
+    </button>
   );
 };
 const SignIn = () => {
   const router = useRouter();
 
   const handleSignIn = async (formData) => {
-    try {
-      await onSignIn(formData);
+    const rawData = Object.fromEntries(formData.entries());
+    const validatedFields = signInSchema.safeParse(rawData);
+    
+    if (!validatedFields.success) {
+      let errStr = "";
+      Object.values(validatedFields.error.flatten().fieldErrors).forEach((error)=> {
+        errStr += error + ", ";
+      });
+      toast.error(errStr);
+      return;
+    }
+    const res = await onSignIn(formData) || {};
+    
+    if("errors" in res) {
+      toast.error(()=> {return (
+        <ul>
+          {res.errors?.map((err, ind) => (
+            <li key={ind}>{err.message}</li>
+          ))}
+        </ul>);}
+      );
+    }else{
       router.push("/");
-    } catch (e) {
-      toast.error("Error signing in: " + e.message);
     }
   };
 
   return (
-    <div className="h-screen flex justify-center align-center bg-gradient-to-br from-sky-500 to-indigo-500">
+    <div className="h-screen flex justify-center align-center bg-gradient-to-br from-zinc-300 to-zinc-700">
       <div className="w-96 p-4 flex flex-col justify-center align-center">
         <form
-          className="shadow-md p-4 rounded-md  bg-slate-100"
+          className="shadow-md p-4 rounded-md bg-slate-100"
           action={handleSignIn}
         >
           <div className="flex space-x-2 py-2 items-center justify-between">
@@ -63,7 +81,7 @@ const SignIn = () => {
           <p>Don&apos;t have an account?</p>
           <Link
             href="/sign_up"
-            className="p-2 bg-slate-500 text-white rounded-md hover:shadow-md text-center align-middle"
+            className="p-2 bg-indigo-500 text-white rounded-md hover:shadow hover:bg-indigo-700 text-center align-middle"
           >
             Sign Up
           </Link>

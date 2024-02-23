@@ -7,6 +7,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import styled from "@emotion/styled";
 import "./styles.css";
 import toast from "react-hot-toast";
+import {useFormStatus} from "react-dom";
 
 const VisuallyHiddenInput = styled("input")`
   clip: rect(0 0 0 0);
@@ -20,6 +21,19 @@ const VisuallyHiddenInput = styled("input")`
   width: 1px;
 `;
 
+const UploadButton = ()=> {
+  const {pending} = useFormStatus();
+  return (
+    <Button
+      type="submit"
+      variant="contained"
+      size="small"
+      disabled={pending}
+    >
+           Upload{pending && "ING..."}
+    </Button>
+  );
+};
 export default function ProfilePicForm({ userId = "", imgUrl = ""}) {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState("");
@@ -28,13 +42,14 @@ export default function ProfilePicForm({ userId = "", imgUrl = ""}) {
     if (!event.target.files || event.target.files.length === 0) {
       return;
     }
-
     setFile(event.target.files[0]);
   };
 
   const handleFormAction = async (formData) => {
     try{
       await onFileUpload(formData);
+      setPreview("");
+      setFile(null);
       toast.success("Profile picture changed successfully!");
     }catch(e){
       toast.error("Error uploading profile picture: " + e.message);
@@ -68,28 +83,16 @@ export default function ProfilePicForm({ userId = "", imgUrl = ""}) {
         </Button>
 
         <VisuallyHiddenInput type="hidden" name='id' value={userId}/>
-        {file && 
-          <Button
-            type="submit"
-            variant="contained"
-            size="small"
-          >
-           Upload
-          </Button>}
+        {file && <UploadButton />
+        }
       </form>
-      <div className="rounded-md bg-zinc-200 shadow-md flex w-80 h-80 truncate">
-        {preview ? (
-          <>
-            <div className="flex-shrink-0 w-1/2 blur-sm">
-              <img src={imgUrl || "/account.svg"} alt="Original" className="object-cover w-full h-full" />
-            </div>
-            <div className="flex-shrink-0 w-1/2 shadow-md">
-              <img src={preview} alt="Preview" className="object-cover w-full h-full border-l-4 border-dashed border-indigo-700" />
-            </div>
-          </>
-        ) : (
-          <img src={imgUrl || "/account.svg"} alt="Original" className="object-contain w-full h-full" />
-        )}
+      <div className="relative rounded-md bg-zinc-200 shadow-md flex w-80 h-80 truncate">
+        <div className="flex-shrink-0" id={!preview? "original" : "after_preview"}>
+          <img src={imgUrl || "/account.svg"} alt="Original" className="object-cover w-full h-full" />
+        </div>
+        <div className="flex-shrink-0" id={preview? "show_preview" : "hide_preview"}>
+          <img src={preview} alt="Preview" className="object-cover w-full h-full border-l-4 border-dashed border-indigo-700" />
+        </div>
       </div>
     </div>
   );

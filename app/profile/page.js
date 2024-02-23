@@ -5,7 +5,7 @@ import { Paper } from "@mui/material";
 import getUser from "../api/get_user";
 import NoUserFound from "./components/noUserFound";
 import ProfilePicForm from "./components/profilePicForm";
-import { startCase } from "@/utils/stringFunctions";
+import { startCase } from "../utils/stringFunctions";
 
 const getProfileInfo = ({user={}, key=""}) => {
   let returnKey = "";

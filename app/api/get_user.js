@@ -1,12 +1,13 @@
 import { cookies } from "next/headers";
 
 const getUser = async () => {
+  const auth = (cookies().get("session_id") || {}).value;
   try {
     const res = await fetch(process.env.BACKEND_HOST + "/get_user", 
       {
         method: "GET",
         headers: {
-          "auth": (cookies().get("session_id") || {}).value,
+          ...(auth && {auth}),
           "Content-Type": "application/json",
         }
       });
