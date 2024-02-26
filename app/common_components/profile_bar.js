@@ -53,7 +53,10 @@ const ProfileBar = ({user={}}) => {
   return (
     <div className="relative text-sm">
       <IconButton onClick={togglePopover} size="small" sx={{height:"32px", width:"32px", borderRadius:"50%", overflow:"hidden"}}>
-        <Image src={user?.image_url || "/account.svg"} alt="No Profile" height={32} width={32} />
+        <Image src={user?.image_url || "/account.svg"}
+          alt="No Profile"
+          height={32}
+          width={32} />
       </IconButton>
       
       <div
@@ -61,7 +64,7 @@ const ProfileBar = ({user={}}) => {
           popoverVisible
             ? "opacity-100 scale-100"
             : "opacity-0 scale-95"
-        } w-60 absolute right-0 top-12 mt-4 w-48 bg-white border border-gray-200 shadow-lg rounded-md overflow-hidden transition-transform duration-300 ease-in-out`}
+        } w-60 absolute right-0 top-6 mt-4 bg-white border border-gray-200 shadow-lg rounded-md overflow-hidden transition-transform duration-300 ease-in-out`}
       >
         <div className="p-4">
 

@@ -79,7 +79,10 @@ export default function ProfilePicForm({ userId = "", imgUrl = ""}) {
           size="small"
         >
           {file || imgUrl ? "Change" : "Upload Picture"}
-          <VisuallyHiddenInput type="file" accept=".jpg,.jpeg,.png" name='file' onChange={handleFileChange}/>
+          <VisuallyHiddenInput type="file"
+            accept=".jpg,.jpeg,.png"
+            name='file'
+            onChange={handleFileChange}/>
         </Button>
 
         <VisuallyHiddenInput type="hidden" name='id' value={userId}/>

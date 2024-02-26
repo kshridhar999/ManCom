@@ -31,13 +31,3 @@ body {
     text-wrap: balance;
   }
 } */
-
-.background {
-  background-image: url("/Inner_reservoir_with_fortifications,_Naldurg_fort.jpg");
-}
-
-body {
-  background-image: url("/Inner_reservoir_with_fortifications,_Naldurg_fort.jpg");
-  background-size: cover;
-  background-attachment: fixed;
-}

@@ -7,17 +7,19 @@ const passwordSchema = z.string().min(8, "Password should be at least 8 characte
 
   return passwordRegex.test(password);
 }, {
-  message: "Invalid password format: Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one digit, and one special character"
+  message: "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character"
 });
 
 export const signUpSchema = z.object({
-  first_name: z.string().optional(),
-  last_name: z.string().optional(),
+  user_type:z.string().refine(val=> ["customer","service_provider"].includes(val), {message: "User type must be selected"}),
+  first_name: z.string().min(1, "First name cant be empty"),
+  middle_name: z.string().optional(),
+  last_name: z.string().min(1, "Last name cant be empty"),
   email: emailSchema,
   password: passwordSchema,
   confirm_password: z.string()
 }).refine((fields) =>fields.password === fields.confirm_password, {
-  path: ["confirmPassword"],
+  path: ["confirm_password"],
   message: "Passwords don't match"
 });
 
