@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
 const onUploadToBackend = async ({id="", imgUrl=""})=> {
@@ -51,7 +51,7 @@ export async function onFileUpload(formData)  {
       const data = await response.json();
       await onUploadToBackend({ id, imgUrl: data.secure_url });
   
-      revalidatePath("/profile");
+      revalidateTag("user");
     } catch (error) {
       console.error("Error uploading image:", error);
     }

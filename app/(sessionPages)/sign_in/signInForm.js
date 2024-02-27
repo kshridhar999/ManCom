@@ -42,7 +42,7 @@ const SignInForm = ()=> {
         </ul>);}
       );
     }else{
-      router.push("/");
+      router.push("/dashboard");
     }
   };
   return (

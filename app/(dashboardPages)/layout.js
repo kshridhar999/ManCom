@@ -2,10 +2,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import classNames from "classnames";
-import Footer from "@/CommonComponents/footer";
+import Footer from "@/CommonComponents/Footer";
 import TopBar from "@/CommonComponents/TopBar";
-import getUser from "@/api/get_user";
-import { redirect } from "next/dist/server/api-utils";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -14,15 +12,9 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  let user = await getUser() || {};
-
-  if(user?.id){
-    redirect("/dashboard");
-  }
-
   return (
     <html lang="en">
-      <body className={classNames(inter.className, "bg-purple-600", "h-screen relative", "flex flex-col")}>
+      <body className={classNames(inter.className, "bg-purple-600", "flex flex-col", "min-h-screen")}>
         <Toaster position="top-center" />
         <TopBar/>
         {children}

@@ -178,7 +178,7 @@ const SignUpForm = () => {
         </ul>);}
       );
     }else{
-      router.push("/");
+      router.push("/dashboard");
     }
   };
 

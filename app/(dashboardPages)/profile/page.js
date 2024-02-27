@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import { Paper } from "@mui/material";
 import getUser from "@/api/get_user";
 import NoUserFound from "./components/noUserFound";
@@ -9,15 +9,16 @@ const showOrder = [
   {key: "first_name", label: "First Name", value: (val)=> startCase(val)}, 
   {key: "last_name", label:"Last Name", value: (val)=> startCase(val)},
   {key: "email", label: "Email"},
-  {key: "created_at", label: "Joining Date", value:(val)=> moment(new Date(val)).format("DD MMM YYYY, hh:mm A")}];
+  {key: "created_at", label: "Joining Date", value:(val)=> moment.utc(val).format("DD MMM YYYY, hh:mm A")}];
 
 const getProfileInfo = (user={}) => {
   const fieldArr = [];
+  console.log("created_at", user?.created_at);
 
   if(typeof user === "object") {
     showOrder.forEach((field)=> {
       if(field.key in user){
-        fieldArr.push({key: field.key, label: field.label, value: "value" in field ? field.value(user[field.key]) : user[field.key]});
+        fieldArr.push({key: field.key, label: field.label, value: field.value?.(user[field.key]) || user[field.key]});
       }
     });
   }

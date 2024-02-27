@@ -1,11 +1,12 @@
 "use client";
 import { IconButton } from "@mui/material";
-import { deleteCookie, getCookie } from "cookies-next";
+import { getCookie } from "cookies-next";
 import { getURL } from "next/dist/shared/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { logout } from "./actions/logout";
 
 const ProfileBar = ({user={}}) => {
   const router = useRouter();
@@ -33,17 +34,15 @@ const ProfileBar = ({user={}}) => {
     });
   }, []);
 
-  const logOut = ()=> {
-    deleteCookie("session_id");
-    deleteCookie("session_created");
-    
+  const onLogOut = ()=> {
+    logout();
+
     togglePopover();
     if(onProfilePage){
       router.push("/");
     }else{
       router.refresh();
     }
-    
   };
 
   const togglePopover = () => {
@@ -83,7 +82,7 @@ const ProfileBar = ({user={}}) => {
 
                 <button
                   className="p-2 bg-yellow-500 text-white rounded-md hover:shadow-md w-20"
-                  onClick={logOut}
+                  onClick={onLogOut}
                 >
                     Log Out
                 </button>

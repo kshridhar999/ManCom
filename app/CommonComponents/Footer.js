@@ -16,7 +16,7 @@ const openLink = (url) => {
 };
 
 const Footer = () => {
-  return <div className="p-1 bg-violet-400 flex justify-between items-center shadow-inner">
+  return <div className="p-1 bg-violet-400 flex justify-between items-center">
     <p className="text-sm text-slate-900">All Rights Reserved</p>
     <line className="flex-auto h-[1px] bg-gradient-to-r from-slate-900 to-purple-200 m-4"/>
     <div className="flex space-x-2">

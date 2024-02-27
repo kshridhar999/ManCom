@@ -9,7 +9,8 @@ const getUser = async () => {
         headers: {
           ...(auth && {auth}),
           "Content-Type": "application/json",
-        }
+        },
+        next: {tags: ["user"]}
       });
     const data = await res.json();
     if(!(data || {}).error){
