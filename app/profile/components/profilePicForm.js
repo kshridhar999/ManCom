@@ -68,7 +68,7 @@ export default function ProfilePicForm({ userId = "", imgUrl = ""}) {
   }, [file]);
 
   return (
-    <div className="flex flex-col space-y-2">
+    <div className="flex flex-col space-y-2 bg-violet-100 p-2 rounded-md">
       <form action={handleFormAction} className="flex space-x-2 self-center">
         <Button
           component="label"
@@ -89,7 +89,7 @@ export default function ProfilePicForm({ userId = "", imgUrl = ""}) {
         {file && <UploadButton />
         }
       </form>
-      <div className="relative rounded-md bg-zinc-200 shadow-md flex w-80 h-80 truncate">
+      <div className="relative rounded-md bg-zinc-200 shadow-md border-2 border-purple-500 flex w-80 h-80 truncate">
         <div className="flex-shrink-0" id={!preview? "original" : "after_preview"}>
           <img src={imgUrl || "/account.svg"} alt="Original" className="object-cover w-full h-full" />
         </div>

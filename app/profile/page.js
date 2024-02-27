@@ -7,63 +7,51 @@ import NoUserFound from "./components/noUserFound";
 import ProfilePicForm from "./components/profilePicForm";
 import { startCase } from "../utils/stringFunctions";
 
-const getProfileInfo = ({user={}, key=""}) => {
-  let returnKey = "";
-  let returnVal = "";
+const showOrder = [
+  {key: "first_name", label: "First Name", value: (val)=> startCase(val)}, 
+  {key: "last_name", label:"Last Name", value: (val)=> startCase(val)},
+  {key: "email", label: "Email"},
+  {key: "created_at", label: "Joining Date", value:(val)=> moment(new Date(val)).format("DD MMM YYYY, hh:mm A")}];
 
-  switch(key) {
-  case "created_at":
-    returnKey = "Joining Date";
-    returnVal = moment(new Date(user.created_at)).format("DD MMM YYYY, hh:mm A");
-    break;
-  case "image_url":
-    returnKey = "";
-    returnVal = "";
-    break;
-  case "updated_at":
-    returnKey = "";
-    returnVal = "";
-    break;
-  case "id":
-    returnKey = "";
-    returnVal = "";
-    break;
-  default:
-    returnKey = startCase(key);
-    returnVal = user[key];
+const getProfileInfo = (user={}) => {
+  const fieldArr = [];
+
+  if(typeof user === "object") {
+    showOrder.forEach((field)=> {
+      if(field.key in user){
+        fieldArr.push({key: field.key, label: field.label, value: "value" in field ? field.value(user[field.key]) : user[field.key]});
+      }
+    });
   }
 
-  return {returnKey, returnVal};
+  return fieldArr;
 };
 
 const Profile = async ()=> {
   const user = await getUser() || {};
   const userFound = !!(user.id);
+  const userInfo = getProfileInfo(user);
 
   return (
     <>
       <TopBar user={user}/>
-      {userFound ? <div className="p-4">
+      {userFound ? <div className="p-4 flex-auto">
         <p className="text-5xl font-black bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">YOUR PROFILE</p>
         <Paper className="mt-8 p-2 border-2 rounded-lg flex space-x-2" elevation={3}>
           <ProfilePicForm userId={user.id} imgUrl={user.image_url} />
-          <div className="flex-1 flex space-y-2 flex-col">
-            {Object.keys(user).map((key, ind)=> {
-              const {returnKey, returnVal} = getProfileInfo({user, key});
-              if(!returnKey && !returnVal) {
-                return null;
-              }
+          <div className="grid grid-cols-3 items-start flex-auto gap-x-2 grid-rows-3 border-[1px] rounded-md border-violet-800">
+            {userInfo.map((field)=> {
               return (
-                <div className="flex justify-between items-center border-b-2 border-slate-400" key={ind}>
-                  <p className="font-extralight text-2xl text-black">
-                    {returnKey}
+                <div className="p-2 shadow-md border-slate-400" key={field.key}>
+                  <p className="text-md text-black font-light">
+                    {field.label}
                   </p>
-                  <p className="font-normal text-2xl text-black">
-                    {returnVal}
+                  <p className="text-lg text-black font-medium">
+                    {field.value}
                   </p>
                 </div>
               );
-            })}        
+            })}         
           </div>
         </Paper>
       </div>:

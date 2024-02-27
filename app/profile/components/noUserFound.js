@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function NoUserFound() {
   return (
-    <div className="mt-20 flex flex-col justify-center items-center space-y-2">
+    <div className="flex flex-col justify-center items-center space-y-2 flex-auto">
       <div className=" text-4xl font-extrabold">No User Found</div>
       <div className="text-2xl font-extralight">Return to Home or Sign in/Sign Up</div>
       <div className="flex space-x-4 pt-4">

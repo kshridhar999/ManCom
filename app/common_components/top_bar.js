@@ -1,10 +1,12 @@
 import Image from "next/image";
 import ProfileBar from "./profile_bar";
+import getUser from "../api/get_user";
 
-function TopBar({user={}}) {
-
+async function TopBar() {
+  let user = await getUser() || {};
+  
   return (
-    <nav className="h-12 bg-purple-500 flex justify-between p-4 shadow-md items-center sticky top-0">
+    <nav className="h-12 bg-violet-400 flex justify-between p-4 shadow-md items-center sticky top-0">
       <Image src="/logo.png"
         alt="~"
         height={32}
