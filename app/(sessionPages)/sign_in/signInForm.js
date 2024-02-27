@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { onSignIn } from "./actions/signIn";
 import toast from "react-hot-toast";
 import { useFormStatus } from "react-dom";
-import { signInSchema } from "../input_configs";
+import { signInSchema } from "@/app/inputConfigs";
 
 const SignInButton = () => {
   const { pending } = useFormStatus();

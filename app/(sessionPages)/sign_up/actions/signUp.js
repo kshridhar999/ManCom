@@ -1,5 +1,5 @@
 "use server";
-import { getError, isErrorful } from "../../utils/responseFunctions";
+import { getError, isErrorful } from "@/utils/responseFunctions";
 import { cookies } from "next/headers";
 
 export const onSignUp = async (formData) => {

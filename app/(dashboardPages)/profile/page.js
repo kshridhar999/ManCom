@@ -1,11 +1,9 @@
-
-import TopBar from "../common_components/top_bar";
 import moment from "moment";
 import { Paper } from "@mui/material";
-import getUser from "../api/get_user";
+import getUser from "@/api/get_user";
 import NoUserFound from "./components/noUserFound";
 import ProfilePicForm from "./components/profilePicForm";
-import { startCase } from "../utils/stringFunctions";
+import { startCase } from "@/utils/stringFunctions";
 
 const showOrder = [
   {key: "first_name", label: "First Name", value: (val)=> startCase(val)}, 
@@ -34,7 +32,6 @@ const Profile = async ()=> {
 
   return (
     <>
-      <TopBar user={user}/>
       {userFound ? <div className="p-4 flex-auto">
         <p className="text-5xl font-black bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">YOUR PROFILE</p>
         <Paper className="mt-8 p-2 border-2 rounded-lg flex space-x-2" elevation={3}>

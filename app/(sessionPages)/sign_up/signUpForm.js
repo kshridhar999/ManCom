@@ -1,11 +1,10 @@
-
 "use client";
 
 import { useRouter } from "next/navigation";
 import { onSignUp } from "./actions/signUp";
 import toast from "react-hot-toast";
 import { useFormStatus } from "react-dom";
-import { signUpSchema } from "../input_configs";
+import { signUpSchema } from "@/app/inputConfigs";
 import { Button, ButtonGroup } from "@mui/material";
 import { useState } from "react";
 import { Controller, useForm, Form } from "react-hook-form";

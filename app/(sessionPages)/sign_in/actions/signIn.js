@@ -1,4 +1,5 @@
-"use server";import { getError, isErrorful } from "../../utils/responseFunctions";
+"use server";
+import { getError, isErrorful } from "@/utils/responseFunctions";
 
 import { cookies } from "next/headers";
 

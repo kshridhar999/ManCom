@@ -1,6 +1,6 @@
 import Image from "next/image";
-import ProfileBar from "./profile_bar";
-import getUser from "../api/get_user";
+import ProfileBar from "./ProfileBar";
+import getUser from "@/api/get_user";
 
 async function TopBar() {
   let user = await getUser() || {};

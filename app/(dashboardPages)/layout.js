@@ -2,9 +2,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import classNames from "classnames";
-import Footer from "./common_components/footer";
-import TopBar from "./common_components/top_bar";
-import getUser from "./api/get_user";
+import Footer from "@/CommonComponents/footer";
+import TopBar from "@/CommonComponents/TopBar";
+import getUser from "@/api/get_user";
 import { redirect } from "next/dist/server/api-utils";
 const inter = Inter({ subsets: ["latin"] });
 
