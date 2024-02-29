@@ -1,5 +1,5 @@
 .input-container {
-  @apply rounded text-lg font-normal text-gray-700 ring-2 focus:outline-none;
+  @apply rounded text-lg font-normal text-gray-700 ring-1 focus:outline-none;
 }
 
 .input-container-disabled {

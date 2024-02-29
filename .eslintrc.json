@@ -39,7 +39,7 @@
       { "maximum": { "single": 3, "multi": 1 } }
     ]
   },
-  "plugins": ["react", "jsx-a11y"],
+  "plugins": ["react", "jsx-a11y", "prettier-plugin-tailwindcss"],
   "settings": {
     "react": {
       "version": "detect"

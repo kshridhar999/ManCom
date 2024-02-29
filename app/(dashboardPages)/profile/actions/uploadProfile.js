@@ -3,9 +3,9 @@
 import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 
-const onUploadToBackend = async ({ id = '', imgUrl = '' }) => {
-  if (!imgUrl || !id) {
-    return { error: 'No image provided' };
+export const updateUser = async ({ id = '', email = '', changes }) => {
+  if (!(email || id)) {
+    return { error: 'No user provided for update' };
   }
   const response = await fetch(process.env.BACKEND_HOST + '/update_user', {
     method: 'POST',
@@ -13,10 +13,18 @@ const onUploadToBackend = async ({ id = '', imgUrl = '' }) => {
       auth: (cookies().get('session_id') || {}).value,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ find: { id }, changes: { image_url: imgUrl } }),
+    body: JSON.stringify({
+      find: { ...(id && { id }), ...(email && { email }) },
+      changes,
+    }),
   });
 
   const data = await response.json();
+  if ('error' in data) {
+    return data;
+  }
+
+  revalidateTag('user');
 
   return data;
 };
@@ -40,13 +48,14 @@ export async function onFileUpload(formData) {
       );
 
       const data = await response.json();
-      const res = await onUploadToBackend({ id, imgUrl: data.secure_url });
+      const res = await onUploadToBackend({
+        id,
+        changes: { imgUrl: data.secure_url },
+      });
 
       if ('error' in res) {
         return res;
       }
-
-      revalidateTag('user');
     } catch (error) {
       return { error: 'Error uploading image:' + error.message };
     }

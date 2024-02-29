@@ -35,10 +35,16 @@ export const signUpSchema = z
   })
   .refine((fields) => fields.password === fields.confirm_password, {
     path: ['confirm_password'],
-    message: 'Passwords don\'t match',
+    message: "Passwords don't match",
   });
 
 export const signInSchema = z.object({
   email: emailSchema,
   password: z.string({ required_error: true }),
+});
+
+export const udpateUserSchema = z.object({
+  first_name: z.string().trim().min(1, 'First name cant be empty').optional(),
+  middle_name: z.string().trim().optional(),
+  last_name: z.string().trim().min(1, 'Last name cant be empty').optional(),
 });
