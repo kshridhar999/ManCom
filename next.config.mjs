@@ -3,16 +3,16 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "res.cloudinary.com",
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
       },
     ],
   },
   logging: {
     fetches: {
-      fullUrl: true
-    }
-  }
+      fullUrl: true,
+    },
+  },
 };
 
 export default nextConfig;

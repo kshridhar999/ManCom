@@ -1,21 +1,16 @@
-import Image from "next/image";
-import ProfileBar from "./ProfileBar";
-import getUser from "@/api/get_user";
+import Image from 'next/image';
+import ProfileBar from './ProfileBar';
+import getUser from '@/api/get_user';
 
 async function TopBar() {
-  let user = await getUser() || {};
-    
+  let user = (await getUser()) || {};
+
   return (
-    <nav className="h-12 flex justify-between p-4 border-b-[1px] border-slate-500 shadow items-center sticky top-0">
-      <Image src="/logo.png"
-        alt="~"
-        height={32}
-        width={32}  />
-      <div className="flex items-center space-x-4 text-2xl font-semibold text-slate-800">
-        <ProfileBar user={user}/>
-      </div>
+    <nav className='sticky top-0 flex h-12 items-center justify-between border-b-[1px] border-slate-500 p-4 shadow'>
+      <Image src='/logo.png' alt='~' height={32} width={32} />
+      <ProfileBar user={user} />
     </nav>
   );
 }
-  
+
 export default TopBar;

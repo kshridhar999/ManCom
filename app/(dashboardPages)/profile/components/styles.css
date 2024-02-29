@@ -1,56 +1,56 @@
 .profile_holder {
-    .image_actions {
-        visibility: hidden;
-    }
+  .image_actions {
+    visibility: hidden;
+  }
 }
 
 .profile_holder:hover {
-    .image_bg {
-        filter: blur(4px);
-    }
-    .image_actions {
-        visibility: visible;
-    }
+  .image_bg {
+    filter: blur(4px);
+  }
+  .image_actions {
+    visibility: visible;
+  }
 }
 
 #original {
-    width: 100%;
+  width: 100%;
 }
 
 #after_preview {
-    width: 50%;
-    filter: blur(2px);
-    animation: slideLeft 0.5s;
+  width: 50%;
+  filter: blur(2px);
+  animation: slideLeft 0.5s;
 }
 
 #show_preview {
-    width: 50%;
-    visibility: visible;
-    animation: slideIn 0.5s;
+  width: 50%;
+  visibility: visible;
+  animation: slideIn 0.5s;
 }
 
 #hide_preview {
-    width: 0;
-    overflow: hidden;
-    visibility: hidden;
+  width: 0;
+  overflow: hidden;
+  visibility: hidden;
 }
 
 @keyframes slideIn {
-    from {
-        width: 0;
-    }
-    to {
-        width: 50%;
-    }
+  from {
+    width: 0;
+  }
+  to {
+    width: 50%;
+  }
 }
 
 @keyframes slideLeft {
-    from {
-        width: 100%;
-        filter: blur(0);
-    }
-    to {
-        filter: blur(2px);
-        width: 50%;
-    }
+  from {
+    width: 100%;
+    filter: blur(0);
+  }
+  to {
+    filter: blur(2px);
+    width: 50%;
+  }
 }

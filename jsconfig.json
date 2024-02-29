@@ -4,7 +4,7 @@
     "paths": {
       "@/*": ["*"],
       "@/api/*": ["app/api/*"],
-      "@/CommonComponents/*": ["app/CommonComponents/*"],
+      "@/CommonComponents/*": ["app/CommonComponents/*"]
     }
   },
   "jsxImportSource": "@emotion/react"

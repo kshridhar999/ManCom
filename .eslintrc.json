@@ -7,9 +7,11 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "next/core-web-vitals", 
+    "next/core-web-vitals",
     "plugin:jsx-a11y/recommended",
-    "plugin:import/warnings"
+    "plugin:import/warnings",
+    "next",
+    "prettier"
   ],
   "parserOptions": {
     "ecmaVersion": 2021,
@@ -20,7 +22,7 @@
   },
   "rules": {
     "indent": ["error", 2],
-    "quotes": ["error", "double"],
+    "quotes": ["error", "single"],
     "semi": ["error", "always"],
     "no-multiple-empty-lines": ["error", { "max": 1 }],
     "react/self-closing-comp": [
@@ -32,12 +34,12 @@
     ],
     "react/jsx-props-no-multi-spaces": ["error"],
     "react/jsx-indent-props": ["error", 2],
-    "react/jsx-max-props-per-line": ["error", { "maximum": { "single": 3, "multi": 1 } }]
+    "react/jsx-max-props-per-line": [
+      "error",
+      { "maximum": { "single": 3, "multi": 1 } }
+    ]
   },
-  "plugins": [
-    "react", 
-    "jsx-a11y"
-  ],
+  "plugins": ["react", "jsx-a11y"],
   "settings": {
     "react": {
       "version": "detect"

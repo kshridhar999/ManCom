@@ -65,18 +65,18 @@
 // ];
 
 function CardComponent({ wo = {} }) {
-  const abbrN = (wo.name || "").split(" ", 2);
+  const abbrN = (wo.name || '').split(' ', 2);
   const newName =
-    abbrN.length > 1 ? abbrN[0] + " " + abbrN[1][0] + "." : abbrN[0];
+    abbrN.length > 1 ? abbrN[0] + ' ' + abbrN[1][0] + '.' : abbrN[0];
   return (
-    <div className="rounded-md bg-cyan-100 flex h-fit">
-      <div className="flex flex-col p-1">
-        <div className="text-ellipsis overflow-hidden w-50 font-bold">
+    <div className='flex h-fit rounded-md bg-cyan-100'>
+      <div className='flex flex-col p-1'>
+        <div className='w-50 overflow-hidden text-ellipsis font-bold'>
           {newName}
         </div>
-        <div className="text-ellipsis overflow-hidden w-50">{wo.location}</div>
+        <div className='w-50 overflow-hidden text-ellipsis'>{wo.location}</div>
       </div>
-      <div className="flex flex-col text-right p-1 font-light">
+      <div className='flex flex-col p-1 text-right font-light'>
         <div>{wo.experience}</div>
         <div>{wo.rating} </div>
       </div>
