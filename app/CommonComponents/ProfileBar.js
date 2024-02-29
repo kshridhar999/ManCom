@@ -78,7 +78,7 @@ const ProfileBar = ({user={}}) => {
               </div>
               <div className="flex justify-between items-center">
                  
-                <Link href={!onProfilePage ? "/profile" : "/"} className="p-2 bg-emerald-500 text-white rounded-md hover:shadow-md w-20 text-center align-middle" >{!onProfilePage ? "Profile": "Home"}</Link>
+                <Link href={!onProfilePage ? "/profile" : "/"} className="p-2 bg-emerald-500 text-white rounded-md hover:shadow-md hover:bg-emerald-600 w-20 text-center align-middle transition-all" >{!onProfilePage ? "Profile": "Home"}</Link>
 
                 <button
                   className="p-2 bg-yellow-500 text-white rounded-md hover:shadow-md w-20 transition-all"
@@ -92,13 +92,13 @@ const ProfileBar = ({user={}}) => {
             <>
               <div className="mb-4 flex justify-between items-center">
                 <p className="text-gray-700">Existing User?</p>
-                <Link href="/sign_in" className="p-2 bg-emerald-300 text-white rounded-md hover:shadow-md w-20 text-center transition-all">
+                <Link href="/sign_in" className="p-2 bg-emerald-400 text-white rounded-md hover:shadow-md hover:bg-emerald-600 w-20 text-center transition-all">
               Sign In
                 </Link>
               </div>
               <div className="flex justify-between items-center">
                 <p className="text-gray-700 ">New User?</p>
-                <Link href="/sign_up" className="p-2 bg-emerald-300 text-white rounded-md hover:shadow-md w-20 text-center transition-all">
+                <Link href="/sign_up" className="p-2 bg-emerald-400 text-white rounded-md hover:shadow-md hover:bg-emerald-600 w-20 text-center transition-all">
               Sign Up
                 </Link>
               </div></>}

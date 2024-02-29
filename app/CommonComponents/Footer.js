@@ -3,7 +3,6 @@
 import MailIcon from "@mui/icons-material/Mail";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import { IconButton } from "@mui/material";
 
 const socialLinks = [
   {name: "linkedIn", Icon: LinkedInIcon, url: "https://linkedin.com/in/shridhar-kulkarni-74531b202" },
@@ -18,7 +17,7 @@ const openLink = (url) => {
 const Footer = () => {
   return <div className="py-1 px-2 flex justify-between items-center shadow-sm">
     <p className="text-[10px] text-slate-900">All Rights Reserved</p>
-    <line className="flex-auto h-[1px] bg-gradient-to-r from-slate-900 to-purple-200 m-4"/>
+    <line className="flex-auto h-[1px] bg-slate-600/80 m-4"/>
     <div className="flex space-x-2">
       {socialLinks.map((link)=>{
         const IconComponent = link.Icon;
@@ -32,7 +31,7 @@ const Footer = () => {
         );
       })}
     </div>
-    <line className="flex-auto h-[1px] bg-gradient-to-l from-slate-900 to-purple-200 m-4"/>
+    <line className="flex-auto h-[1px] bg-slate-600/80 to-purple-200 m-4"/>
     <p className="text-[10px] text-slate-900">ManCom United</p>
   </div>
   ;

@@ -9,7 +9,7 @@ const SignInButton = () => {
   const { pending } = useFormStatus();
   return (
     <button
-      className="w-full mt-4 p-2 bg-emerald-500 text-white rounded-md hover:shadow-md hover:bg-emerald-700"
+      className="w-full mt-4 p-2 bg-emerald-500 text-white rounded-md hover:shadow-md hover:bg-emerald-700 transition-all"
       type="submit"
       disabled={pending}
       variant="contained"

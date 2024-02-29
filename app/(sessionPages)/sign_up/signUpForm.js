@@ -135,7 +135,7 @@ const SignUpBotton = () => {
   const {pending } = useFormStatus();
   
   return (
-    <Button className=" bg-green-500 hover:bg-green-700 text-white" type="submit" disabled={pending}>Sign Up</Button>
+    <Button className=" bg-green-500 hover:bg-green-700 text-white transition-all" type="submit" disabled={pending}>Sign Up</Button>
   );
 };
 
@@ -189,9 +189,9 @@ const SignUpForm = () => {
         control={control}
         setValue={setValue}/>
       <div className="flex flex-row-reverse space-x-2 justify-between w-full">
-        {nextPossible ? <Button onClick={()=> goForward()} className="bg-green-500 hover:bg-green-700 text-white">Next</Button>:
+        {nextPossible ? <Button onClick={()=> goForward()} className="bg-emerald-600 hover:bg-emerald-800 text-white">Next</Button>:
           <SignUpBotton />}
-        {prevPossible && <Button onClick={()=> goBack()} className="bg-amber-300 hover:bg-amber-700 text-white">Back</Button>}
+        {prevPossible && <Button onClick={()=> goBack()} className="bg-amber-400 hover:bg-amber-700 text-white">Back</Button>}
         
       </div>
     </Form>
