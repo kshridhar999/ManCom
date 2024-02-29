@@ -16,25 +16,24 @@ const openLink = (url) => {
 };
 
 const Footer = () => {
-  return <div className="p-1 bg-violet-400 flex justify-between items-center">
-    <p className="text-sm text-slate-900">All Rights Reserved</p>
+  return <div className="py-1 px-2 flex justify-between items-center shadow-sm">
+    <p className="text-[10px] text-slate-900">All Rights Reserved</p>
     <line className="flex-auto h-[1px] bg-gradient-to-r from-slate-900 to-purple-200 m-4"/>
     <div className="flex space-x-2">
       {socialLinks.map((link)=>{
         const IconComponent = link.Icon;
         return (
-          <IconButton className="bg-purple-200"
+          <button className="bg-transparent hover:bg-slate-300 size-[fit-content] p-1 rounded-full transition-colors text-slate-600"
             key={link.name}
-            onClick={()=> openLink(link.url)}
-            style={{color: "white"}}>
-            <IconComponent/>
-          </IconButton>
+            onClick={()=> openLink(link.url)}>
+            <IconComponent />
+          </button>
           
         );
       })}
     </div>
     <line className="flex-auto h-[1px] bg-gradient-to-l from-slate-900 to-purple-200 m-4"/>
-    <p className="text-sm text-slate-900">ManCom United</p>
+    <p className="text-[10px] text-slate-900">ManCom United</p>
   </div>
   ;
 };

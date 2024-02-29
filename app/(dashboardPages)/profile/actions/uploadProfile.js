@@ -5,29 +5,20 @@ import { cookies } from "next/headers";
 
 const onUploadToBackend = async ({id="", imgUrl=""})=> {
   if(!imgUrl || !id) {
-    return;
+    return {error: "No image provided"};
   }
-      
-  try {
-    const response = await fetch(process.env.BACKEND_HOST + "/update_user",{
-      method: "POST",
-      headers: {
-        "auth": (cookies().get("session_id") || {}).value,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({find: {id},changes:{image_url: imgUrl}})
-    });
+  const response = await fetch(process.env.BACKEND_HOST + "/update_user",{
+    method: "POST",
+    headers: {
+      "auth": (cookies().get("session_id") || {}).value,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({find: {id},changes:{image_url: imgUrl}})
+  });
     
-    const data = await response.json();
+  const data = await response.json();
     
-    if(!(data || {}).error){
-      return data;
-    }else{
-      console.log(data.error);
-    }
-  }catch(e){
-    console.log("Error uploading image:", e);
-  }
+  return data;
 };
 
 export async function onFileUpload(formData)  {
@@ -49,11 +40,15 @@ export async function onFileUpload(formData)  {
       );
         
       const data = await response.json();
-      await onUploadToBackend({ id, imgUrl: data.secure_url });
+      const res = await onUploadToBackend({ id, imgUrl: data.secure_url });
+
+      if("error" in res){
+        return res;
+      }
   
       revalidateTag("user");
     } catch (error) {
-      console.error("Error uploading image:", error);
+      return {error: "Error uploading image:"+ error.message};
     }
   }
 }

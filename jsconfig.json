@@ -6,5 +6,6 @@
       "@/api/*": ["app/api/*"],
       "@/CommonComponents/*": ["app/CommonComponents/*"],
     }
-  }
+  },
+  "jsxImportSource": "@emotion/react"
 }

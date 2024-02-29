@@ -46,13 +46,14 @@ export default function ProfilePicForm({ userId = "", imgUrl = ""}) {
   };
 
   const handleFormAction = async (formData) => {
-    try{
-      await onFileUpload(formData);
+    
+    const response = await onFileUpload(formData) || {};
+    if(!("error" in response)){
       setPreview("");
       setFile(null);
       toast.success("Profile picture changed successfully!");
-    }catch(e){
-      toast.error("Error uploading profile picture: " + e.message);
+    }else{
+      toast.error("Error uploading profile picture: " + response.error);
     }
   };
 

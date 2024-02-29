@@ -81,7 +81,7 @@ const ProfileBar = ({user={}}) => {
                 <Link href={!onProfilePage ? "/profile" : "/"} className="p-2 bg-emerald-500 text-white rounded-md hover:shadow-md w-20 text-center align-middle" >{!onProfilePage ? "Profile": "Home"}</Link>
 
                 <button
-                  className="p-2 bg-yellow-500 text-white rounded-md hover:shadow-md w-20"
+                  className="p-2 bg-yellow-500 text-white rounded-md hover:shadow-md w-20 transition-all"
                   onClick={onLogOut}
                 >
                     Log Out
@@ -92,13 +92,13 @@ const ProfileBar = ({user={}}) => {
             <>
               <div className="mb-4 flex justify-between items-center">
                 <p className="text-gray-700">Existing User?</p>
-                <Link href="/sign_in" className="p-2 bg-emerald-300 text-white rounded-md hover:shadow-md w-20 text-center align-middle">
+                <Link href="/sign_in" className="p-2 bg-emerald-300 text-white rounded-md hover:shadow-md w-20 text-center transition-all">
               Sign In
                 </Link>
               </div>
               <div className="flex justify-between items-center">
                 <p className="text-gray-700 ">New User?</p>
-                <Link href="/sign_up" className="p-2 bg-emerald-300 text-white rounded-md hover:shadow-md w-20 text-center align-middle">
+                <Link href="/sign_up" className="p-2 bg-emerald-300 text-white rounded-md hover:shadow-md w-20 text-center transition-all">
               Sign Up
                 </Link>
               </div></>}

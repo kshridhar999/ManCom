@@ -13,7 +13,6 @@ const showOrder = [
 
 const getProfileInfo = (user={}) => {
   const fieldArr = [];
-  console.log("created_at", user?.created_at);
 
   if(typeof user === "object") {
     showOrder.forEach((field)=> {

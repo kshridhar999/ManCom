@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 
 export default async function Dashboard(){
   const user = await getUser() || {};
-  console.log("user", user);
 
   if(!user.id){
     redirect("/sign_in");

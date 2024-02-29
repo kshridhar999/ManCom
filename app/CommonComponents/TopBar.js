@@ -6,7 +6,7 @@ async function TopBar() {
   let user = await getUser() || {};
     
   return (
-    <nav className="h-12 bg-violet-400 flex justify-between p-4 shadow-md items-center sticky top-0">
+    <nav className="h-12 flex justify-between p-4 border-b-[1px] border-slate-500 shadow-sm items-center sticky top-0">
       <Image src="/logo.png"
         alt="~"
         height={32}
