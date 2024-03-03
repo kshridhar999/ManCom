@@ -17,7 +17,7 @@ export default async function RootLayout({ children }) {
       <body
         className={classNames(
           inter.className,
-          'bg-gradient-to-br from-indigo-500 to-slate-400/70 to-35%  text-slate-700',
+          'bg-slate-300 text-slate-700',
           'flex flex-col',
           'min-h-screen'
         )}

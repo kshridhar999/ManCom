@@ -1,6 +1,6 @@
 export const startCase = (str = '') => {
   if (!str || typeof str != 'string') {
-    return typeof str;
+    return '-';
   }
 
   const strArr = str.split('_');

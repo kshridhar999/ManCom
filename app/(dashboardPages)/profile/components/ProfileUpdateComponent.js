@@ -6,12 +6,94 @@ import './profileInputs.css';
 import { updateUser } from '../actions/uploadProfile';
 import toast from 'react-hot-toast';
 import { udpateUserSchema } from '@/app/inputConfigs';
+import {
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  TextField,
+  Button,
+} from '@mui/material';
+import verifyPassword from '../actions/verifyPassword';
+
+const VerifyPasswordDialogue = ({
+  open = false,
+  handleClose = () => {},
+  setPasswordVerified = () => {},
+  email,
+}) => {
+  return (
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      PaperProps={{
+        component: 'form',
+        onSubmit: async (event) => {
+          event.preventDefault();
+          const formData = new FormData(event.currentTarget);
+          const response = await verifyPassword(formData);
+
+          if ('errors' in response) {
+            toast.error(() => {
+              return (
+                <ul>
+                  {response.errors?.map((err, ind) => (
+                    <li key={ind}>{err.message}</li>
+                  ))}
+                </ul>
+              );
+            });
+          } else {
+            toast.success('Verified successfully');
+            setPasswordVerified(true);
+            handleClose();
+          }
+        },
+      }}
+    >
+      <DialogTitle>Verify Password</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          To change the password, please enter your current password.
+        </DialogContentText>
+        <TextField
+          autoFocus
+          required
+          margin='dense'
+          id='password'
+          name='password'
+          label='Current Password'
+          type='password'
+          fullWidth
+          variant='standard'
+        />
+        <input type='hidden' name='email' value={email} />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose}>Cancel</Button>
+        <Button type='submit'>Verify</Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
 export default function ProfileUpdateComponent({ userInfo }) {
   const [edit, setEdit] = useState([]);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [openPasswordModal, setOpenPasswordModal] = useState(false);
+  const [passwordVerified, setPasswordVerified] = useState(false);
+  const userEmail = userInfo.find((field) => field.key === 'email')?.value;
 
   const addToEdit = (field) => {
+    if (field.key === 'password_present') {
+      if (field.value === 'Not present' || passwordVerified) {
+        setEdit((pv) => [...pv, { key: field.key, prev: field.value }]);
+      } else {
+        setOpenPasswordModal(true);
+      }
+      return;
+    }
     setEdit((pv) => [...pv, { key: field.key, prev: field.value }]);
   };
 
@@ -56,7 +138,13 @@ export default function ProfileUpdateComponent({ userInfo }) {
     const changes = {};
     edit
       .filter((change) => change.prev !== change.value)
-      .forEach((change) => (changes[change.key] = change.value));
+      .forEach((change) => {
+        if (change.key === 'password_present') {
+          changes.password = change.value;
+        } else {
+          changes[change.key] = change.value;
+        }
+      });
 
     if (Object.keys(changes).length === 0) {
       setIsUpdating(false);
@@ -71,7 +159,11 @@ export default function ProfileUpdateComponent({ userInfo }) {
       toast.error(errStr);
       return;
     }
-    const response = await updateUser({ email: userEmail, changes });
+    console.log('result', result);
+    const response = await updateUser({
+      email: userEmail,
+      changes: result.data,
+    });
 
     if ('error' in response) {
       toast.error(response.error);
@@ -108,6 +200,12 @@ export default function ProfileUpdateComponent({ userInfo }) {
                     >
                       <Edit className='object-cover' />
                     </button>
+                    <VerifyPasswordDialogue
+                      open={openPasswordModal}
+                      handleClose={() => setOpenPasswordModal(false)}
+                      setPasswordVerified={setPasswordVerified}
+                      email={userEmail}
+                    />
                   </>
                 )}
               </div>
@@ -117,6 +215,7 @@ export default function ProfileUpdateComponent({ userInfo }) {
               value={getValue(field)}
               disabled={!isEditing(field)}
               onChange={(e) => setValue(field, e.target.value)}
+              placeholder={field.key === 'password_present' ? field.value : ''}
             />
           </div>
         );

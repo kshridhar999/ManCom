@@ -47,4 +47,5 @@ export const udpateUserSchema = z.object({
   first_name: z.string().trim().min(1, 'First name cant be empty').optional(),
   middle_name: z.string().trim().optional(),
   last_name: z.string().trim().min(1, 'Last name cant be empty').optional(),
+  password: passwordSchema.optional(),
 });

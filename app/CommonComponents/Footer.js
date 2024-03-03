@@ -20,7 +20,9 @@ const openLink = (url) => {
 const Footer = () => {
   return (
     <div className='flex items-center justify-between px-2 py-1 shadow-sm'>
-      <p className='text-[10px] text-slate-900'>All Rights Reserved</p>
+      <p className='hidden text-[10px] text-slate-900 sm:block'>
+        All Rights Reserved
+      </p>
       <line className='m-4 h-[1px] flex-auto bg-slate-600/80' />
       <div className='flex space-x-2'>
         {socialLinks.map((link) => {
@@ -37,7 +39,9 @@ const Footer = () => {
         })}
       </div>
       <line className='m-4 h-[1px] flex-auto bg-slate-600/80 to-purple-200' />
-      <p className='text-[10px] text-slate-900'>ManCom United</p>
+      <p className='hidden text-[10px] text-slate-900 sm:block'>
+        ManCom United
+      </p>
     </div>
   );
 };

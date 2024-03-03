@@ -8,8 +8,14 @@ import ProfileUpdateComponent from './components/ProfileUpdateComponent';
 
 const showOrder = [
   { key: 'first_name', label: 'First Name', value: (val) => startCase(val) },
+  { key: 'middle_name', label: 'Middle Name', value: (val) => startCase(val) },
   { key: 'last_name', label: 'Last Name', value: (val) => startCase(val) },
   { key: 'email', label: 'Email' },
+  {
+    key: 'password_present',
+    label: 'Password',
+    value: (val) => (val ? 'xxxxxx' : 'Not present'),
+  },
   {
     key: 'created_at',
     label: 'Joining Date',
@@ -37,6 +43,7 @@ const getProfileInfo = (user = {}) => {
 
 const Profile = async () => {
   const user = (await getUser()) || {};
+  console.log('user', user);
   const userFound = !!user.id;
   const userInfo = getProfileInfo(user);
 
