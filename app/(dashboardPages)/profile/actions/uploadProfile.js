@@ -20,6 +20,7 @@ export const updateUser = async ({ id = '', email = '', changes }) => {
   });
 
   const data = await response.json();
+
   if ('error' in data) {
     return data;
   }
@@ -48,9 +49,9 @@ export async function onFileUpload(formData) {
       );
 
       const data = await response.json();
-      const res = await onUploadToBackend({
+      const res = await updateUser({
         id,
-        changes: { imgUrl: data.secure_url },
+        changes: { image_url: data.secure_url },
       });
 
       if ('error' in res) {

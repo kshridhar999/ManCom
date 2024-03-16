@@ -159,7 +159,7 @@ export default function ProfileUpdateComponent({ userInfo }) {
       toast.error(errStr);
       return;
     }
-    console.log('result', result);
+
     const response = await updateUser({
       email: userEmail,
       changes: result.data,

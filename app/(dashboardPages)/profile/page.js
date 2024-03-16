@@ -43,7 +43,7 @@ const getProfileInfo = (user = {}) => {
 
 const Profile = async () => {
   const user = (await getUser()) || {};
-  console.log('user', user);
+
   const userFound = !!user.id;
   const userInfo = getProfileInfo(user);
 
