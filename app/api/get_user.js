@@ -12,13 +12,14 @@ const getUser = async () => {
       next: { tags: ['user'] },
     });
     const data = await res.json();
+
     if (!(data || {}).error) {
-      return data;
+      return { user: data.item };
     } else {
-      console.log(data.error);
+      return { error: data.error };
     }
   } catch (e) {
-    console.log(e);
+    return { error: e.message };
   }
 };
 

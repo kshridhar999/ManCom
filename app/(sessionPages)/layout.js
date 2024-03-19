@@ -2,6 +2,9 @@ import { Inter } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 import classNames from 'classnames';
 import './globals.css';
+import getUser from '../api/get_user';
+import { redirect } from 'next/navigation';
+import Link from 'next/link';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
@@ -10,6 +13,12 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
+  const { user = {} } = await getUser();
+
+  if (user.id) {
+    redirect('/dashboard');
+  }
+
   return (
     <html lang='en'>
       <body

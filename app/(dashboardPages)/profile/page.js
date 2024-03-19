@@ -42,7 +42,7 @@ const getProfileInfo = (user = {}) => {
 };
 
 const Profile = async () => {
-  const user = (await getUser()) || {};
+  const { user = {} } = (await getUser()) || {};
 
   const userFound = !!user.id;
   const userInfo = getProfileInfo(user);

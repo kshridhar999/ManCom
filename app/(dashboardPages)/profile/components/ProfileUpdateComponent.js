@@ -21,7 +21,6 @@ const VerifyPasswordDialogue = ({
   open = false,
   handleClose = () => {},
   setPasswordVerified = () => {},
-  email,
 }) => {
   return (
     <Dialog
@@ -68,7 +67,6 @@ const VerifyPasswordDialogue = ({
           fullWidth
           variant='standard'
         />
-        <input type='hidden' name='email' value={email} />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
@@ -83,7 +81,6 @@ export default function ProfileUpdateComponent({ userInfo }) {
   const [isUpdating, setIsUpdating] = useState(false);
   const [openPasswordModal, setOpenPasswordModal] = useState(false);
   const [passwordVerified, setPasswordVerified] = useState(false);
-  const userEmail = userInfo.find((field) => field.key === 'email')?.value;
 
   const addToEdit = (field) => {
     if (field.key === 'password_present') {
@@ -204,7 +201,6 @@ export default function ProfileUpdateComponent({ userInfo }) {
                       open={openPasswordModal}
                       handleClose={() => setOpenPasswordModal(false)}
                       setPasswordVerified={setPasswordVerified}
-                      email={userEmail}
                     />
                   </>
                 )}
