@@ -1,7 +1,7 @@
 'use client';
 
 import { Cancel, Edit } from '@mui/icons-material';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import './profileInputs.css';
 import { updateUser } from '../actions/uploadProfile';
 import toast from 'react-hot-toast';
@@ -16,11 +16,58 @@ import {
   Button,
 } from '@mui/material';
 import verifyPassword from '../actions/verifyPassword';
+import { startCase } from '@/utils/stringFunctions';
+import moment from 'moment-timezone';
 
+const showOrder = [
+  {
+    key: 'first_name',
+    label: 'First Name',
+    getValue: (val) => startCase(val),
+  },
+  {
+    key: 'middle_name',
+    label: 'Middle Name',
+    getValue: (val) => startCase(val),
+  },
+  { key: 'last_name', label: 'Last Name', getValue: (val) => startCase(val) },
+  { key: 'email', label: 'Email', getValue: (val) => val },
+  {
+    key: 'password_present',
+    label: 'Password',
+    getValue: (val) => (val ? 'xxxxxx' : 'Not present'),
+  },
+  {
+    key: 'created_at',
+    label: 'Joining Date',
+    getValue: (val) => moment.utc(val).format('DD MMM YYYY, hh:mm A'),
+  },
+];
+const getProfileInfo = (user = {}) => {
+  const fieldArr = [];
+
+  if (typeof user === 'object') {
+    showOrder.forEach((field) => {
+      if (field.key in user) {
+        fieldArr.push({
+          ...field,
+          value: field.getValue(user[field.key]),
+          type:
+            field.key === 'password_present' && user[field.key]
+              ? 'password'
+              : 'text',
+        });
+      }
+    });
+  }
+
+  return fieldArr;
+};
 const VerifyPasswordDialogue = ({
   open = false,
   handleClose = () => {},
   setPasswordVerified = () => {},
+  userEmail = '',
 }) => {
   return (
     <Dialog
@@ -67,6 +114,7 @@ const VerifyPasswordDialogue = ({
           fullWidth
           variant='standard'
         />
+        <input type='hidden' name='email' value={userEmail} />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
@@ -76,7 +124,9 @@ const VerifyPasswordDialogue = ({
   );
 };
 
-export default function ProfileUpdateComponent({ userInfo }) {
+export default function ProfileUpdateComponent({ user = {} }) {
+  const userInfo = useMemo(() => getProfileInfo(user), [user.id]);
+
   const [edit, setEdit] = useState([]);
   const [isUpdating, setIsUpdating] = useState(false);
   const [openPasswordModal, setOpenPasswordModal] = useState(false);
@@ -125,7 +175,7 @@ export default function ProfileUpdateComponent({ userInfo }) {
 
   const onUpdateUser = async () => {
     setIsUpdating(true);
-    const userEmail = userInfo.find((info) => info.key === 'email').value;
+    const userEmail = user.email;
     if (!userEmail) {
       setIsUpdating(false);
       toast.error('No user identification for updation');
@@ -201,6 +251,7 @@ export default function ProfileUpdateComponent({ userInfo }) {
                       open={openPasswordModal}
                       handleClose={() => setOpenPasswordModal(false)}
                       setPasswordVerified={setPasswordVerified}
+                      userEmail={user.email}
                     />
                   </>
                 )}
@@ -212,6 +263,7 @@ export default function ProfileUpdateComponent({ userInfo }) {
               disabled={!isEditing(field)}
               onChange={(e) => setValue(field, e.target.value)}
               placeholder={field.key === 'password_present' ? field.value : ''}
+              type={field.type || 'text'}
             />
           </div>
         );

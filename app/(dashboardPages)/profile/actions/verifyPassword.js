@@ -5,14 +5,13 @@ import { cookies } from 'next/headers';
 
 const verifyPassword = async (formData) => {
   const formObj = Object.fromEntries(formData.entries());
-
-  formObj.create_session = false;
+  const auth = (cookies().get('session_id') || {}).value;
 
   const res = await fetch(process.env.BACKEND_HOST + '/verify_password', {
     method: 'POST',
     body: JSON.stringify(formObj),
     headers: {
-      auth: (cookies().get('session_id') || {}).value,
+      ...(auth && { auth }),
       'Content-Type': 'application/json',
     },
   });
