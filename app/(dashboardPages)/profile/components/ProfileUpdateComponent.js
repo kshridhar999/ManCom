@@ -1,228 +1,29 @@
 'use client';
 
 import { Cancel, Edit } from '@mui/icons-material';
-import { useEffect, useMemo, useState } from 'react';
+import useUpdateProfile from '../hooks/useUpdateProfile';
+import VerifyPasswordDialogue from './VerifyPasswordDialogue';
 import './profileInputs.css';
-import { updateUser } from '../actions/uploadProfile';
-import toast from 'react-hot-toast';
-import { udpateUserSchema } from '@/app/inputConfigs';
-import {
-  Dialog,
-  DialogTitle,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  TextField,
-  Button,
-} from '@mui/material';
-import verifyPassword from '../actions/verifyPassword';
-import { startCase } from '@/utils/stringFunctions';
-import moment from 'moment-timezone';
-
-const showOrder = [
-  {
-    key: 'first_name',
-    label: 'First Name',
-    getValue: (val) => startCase(val),
-  },
-  {
-    key: 'middle_name',
-    label: 'Middle Name',
-    getValue: (val) => startCase(val),
-  },
-  { key: 'last_name', label: 'Last Name', getValue: (val) => startCase(val) },
-  { key: 'email', label: 'Email', getValue: (val) => val },
-  {
-    key: 'password_present',
-    label: 'Password',
-    getValue: (val) => (val ? 'xxxxxx' : 'Not present'),
-  },
-  {
-    key: 'created_at',
-    label: 'Joining Date',
-    getValue: (val) => moment.utc(val).format('DD MMM YYYY, hh:mm A'),
-  },
-];
-const getProfileInfo = (user = {}) => {
-  const fieldArr = [];
-
-  if (typeof user === 'object') {
-    showOrder.forEach((field) => {
-      if (field.key in user) {
-        fieldArr.push({
-          ...field,
-          value: field.getValue(user[field.key]),
-          type:
-            field.key === 'password_present' && user[field.key]
-              ? 'password'
-              : 'text',
-        });
-      }
-    });
-  }
-
-  return fieldArr;
-};
-const VerifyPasswordDialogue = ({
-  open = false,
-  handleClose = () => {},
-  setPasswordVerified = () => {},
-  userEmail = '',
-}) => {
-  return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      PaperProps={{
-        component: 'form',
-        onSubmit: async (event) => {
-          event.preventDefault();
-          const formData = new FormData(event.currentTarget);
-          const response = await verifyPassword(formData);
-
-          if ('errors' in response) {
-            toast.error(() => {
-              return (
-                <ul>
-                  {response.errors?.map((err, ind) => (
-                    <li key={ind}>{err.message}</li>
-                  ))}
-                </ul>
-              );
-            });
-          } else {
-            toast.success('Verified successfully');
-            setPasswordVerified(true);
-            handleClose();
-          }
-        },
-      }}
-    >
-      <DialogTitle>Verify Password</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          To change the password, please enter your current password.
-        </DialogContentText>
-        <TextField
-          autoFocus
-          required
-          margin='dense'
-          id='password'
-          name='password'
-          label='Current Password'
-          type='password'
-          fullWidth
-          variant='standard'
-        />
-        <input type='hidden' name='email' value={userEmail} />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button type='submit'>Verify</Button>
-      </DialogActions>
-    </Dialog>
-  );
-};
 
 export default function ProfileUpdateComponent({ user = {} }) {
-  const userInfo = useMemo(() => getProfileInfo(user), [user.id]);
-
-  const [edit, setEdit] = useState([]);
-  const [isUpdating, setIsUpdating] = useState(false);
-  const [openPasswordModal, setOpenPasswordModal] = useState(false);
-  const [passwordVerified, setPasswordVerified] = useState(false);
-
-  const addToEdit = (field) => {
-    if (field.key === 'password_present') {
-      if (field.value === 'Not present' || passwordVerified) {
-        setEdit((pv) => [...pv, { key: field.key, prev: field.value }]);
-      } else {
-        setOpenPasswordModal(true);
-      }
-      return;
-    }
-    setEdit((pv) => [...pv, { key: field.key, prev: field.value }]);
-  };
-
-  const removeFromEdit = (field) => {
-    setEdit((pv) => pv.filter((existing) => existing.key !== field.key));
-  };
-
-  const cancelEdit = () => {
-    setEdit([]);
-  };
-
-  const isEditing = (field) => {
-    return (
-      edit.length > 0 && edit.find((editField) => editField.key === field.key)
-    );
-  };
-
-  const getValue = (field) => {
-    const editField = edit?.find((editField) => editField.key === field.key);
-    if (typeof editField?.value === 'string') {
-      return editField.value;
-    }
-    return editField?.prev || field.value;
-  };
-
-  const setValue = (field, value) => {
-    const otherFields = edit.filter((existing) => existing.key !== field.key);
-    const editField = edit.find((editField) => editField.key === field.key);
-    const newEditFields = [...otherFields, { ...editField, value: value }];
-    setEdit(newEditFields);
-  };
-
-  const onUpdateUser = async () => {
-    setIsUpdating(true);
-    const userEmail = user.email;
-    if (!userEmail) {
-      setIsUpdating(false);
-      toast.error('No user identification for updation');
-      return;
-    }
-
-    const changes = {};
-    edit
-      .filter((change) => change.prev !== change.value)
-      .forEach((change) => {
-        if (change.key === 'password_present') {
-          changes.password = change.value;
-        } else {
-          changes[change.key] = change.value;
-        }
-      });
-
-    if (Object.keys(changes).length === 0) {
-      setIsUpdating(false);
-      toast.error('No changes to update');
-      return;
-    }
-
-    const result = udpateUserSchema.safeParse(changes);
-    if (!result.success) {
-      setIsUpdating(false);
-      let errStr = Object.values(result.error.flatten().fieldErrors).join(', ');
-      toast.error(errStr);
-      return;
-    }
-
-    const response = await updateUser({
-      email: userEmail,
-      changes: result.data,
-    });
-
-    if ('error' in response) {
-      toast.error(response.error);
-    } else {
-      toast.success('Update Successful!!');
-    }
-    setIsUpdating(false);
-    setEdit([]);
-  };
+  const {
+    userInfo,
+    edit,
+    isEditing,
+    removeFromEdit,
+    addToEdit,
+    cancelEdit,
+    openPasswordModal,
+    setOpenPasswordModal,
+    setPasswordVerified,
+    getValue,
+    setValue,
+    onUpdateUser,
+    isUpdating,
+  } = useUpdateProfile({ user });
 
   return (
-    <div className='relative grid flex-auto grid-cols-3 grid-rows-3 items-start gap-x-2 rounded-md border-[1px] border-violet-800'>
+    <div className='relative grid flex-auto grid-cols-3 grid-rows-3 items-start gap-x-2 rounded-md border-DEFAULT border-violet-800'>
       {userInfo.map((field) => {
         const isEditPossible = !['email', 'created_at'].includes(field.key);
         return (

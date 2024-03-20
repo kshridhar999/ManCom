@@ -13,7 +13,7 @@ const Profile = async () => {
     <>
       {userFound ? (
         <div className='flex-auto p-4'>
-          <p className='max-w-[fit-content] bg-gradient-to-r from-orange-600 to-indigo-600 bg-clip-text text-5xl font-black text-transparent'>
+          <p className='max-w-fit bg-gradient-to-r from-orange-600 to-indigo-600 bg-clip-text text-5xl font-black text-transparent'>
             YOUR PROFILE
           </p>
           <Paper

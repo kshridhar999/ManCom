@@ -1,10 +1,9 @@
-import { Inter } from 'next/font/google';
-import { Toaster } from 'react-hot-toast';
 import classNames from 'classnames';
-import './globals.css';
-import getUser from '../api/get_user';
+import { Inter } from 'next/font/google';
 import { redirect } from 'next/navigation';
-import Link from 'next/link';
+import { Toaster } from 'react-hot-toast';
+import getUser from '../api/get_user';
+import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {

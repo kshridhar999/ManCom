@@ -85,25 +85,22 @@ export default function ProfileUploadComponent({ userId = '', imgUrl = '' }) {
         <VisuallyHiddenInput type='hidden' name='id' value={userId} />
         {file && <UploadButton />}
       </form>
-      <div className='relative flex h-80 w-80 truncate rounded-md border-2 border-purple-500 bg-zinc-200 shadow-md'>
-        <div
-          className='flex-shrink-0'
-          id={!preview ? 'original' : 'after_preview'}
-        >
+      <div className='relative flex size-80 truncate rounded-md border-2 border-purple-500 bg-zinc-200 shadow-md'>
+        <div className='shrink-0' id={!preview ? 'original' : 'after_preview'}>
           <img
             src={imgUrl || '/account.svg'}
             alt='Original'
-            className='h-full w-full object-cover'
+            className='size-full object-cover'
           />
         </div>
         <div
-          className='flex-shrink-0'
+          className='shrink-0'
           id={preview ? 'show_preview' : 'hide_preview'}
         >
           <img
             src={preview}
             alt='Preview'
-            className='h-full w-full border-l-4 border-dashed border-indigo-700 object-cover'
+            className='size-full border-l-4 border-dashed border-indigo-700 object-cover'
           />
         </div>
       </div>
