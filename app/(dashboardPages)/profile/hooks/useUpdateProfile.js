@@ -5,34 +5,32 @@ import { useMemo, useState } from 'react';
 import { updateUser } from '../actions/uploadProfile';
 import toast from 'react-hot-toast';
 
-export const getProfileInfo = (user = {}) => {
-  const fieldArr = [];
-
-  if (typeof user === 'object') {
-    profileShowOrder.forEach((field) => {
-      if (field.key in user) {
-        fieldArr.push({
-          ...field,
-          value: field.getValue(user[field.key]),
-          type:
-            field.key === 'password_present' && user[field.key]
-              ? 'password'
-              : 'text',
-        });
-      }
-    });
-  }
-
-  return fieldArr;
-};
-
 const useUpdateProfile = ({ user }) => {
   const [edit, setEdit] = useState([]);
   const [isUpdating, setIsUpdating] = useState(false);
   const [openPasswordModal, setOpenPasswordModal] = useState(false);
   const [passwordVerified, setPasswordVerified] = useState(false);
 
-  const userInfo = useMemo(() => getProfileInfo(user), [user.id]);
+  const userInfo = useMemo(() => {
+    const fieldArr = [];
+
+    if (typeof user === 'object') {
+      profileShowOrder.forEach((field) => {
+        if (field.key in user) {
+          fieldArr.push({
+            ...field,
+            value: field.getValue(user[field.key]),
+            type:
+              field.key === 'password_present' && user[field.key]
+                ? 'password'
+                : 'text',
+          });
+        }
+      });
+    }
+
+    return fieldArr;
+  }, [user.id]);
 
   const addToEdit = (field, passwordVerified) => {
     if (field.key === 'password_present') {

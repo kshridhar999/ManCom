@@ -74,8 +74,8 @@ const ProfileBar = ({ user = {} }) => {
           {user?.id ? (
             <div className='flex flex-col justify-between'>
               <div className='flex items-center justify-between pb-2 text-gray-700'>
-                <p className='text-md font-bold text-gray-700'>Time Active:</p>
-                <p className='text-md font-bold text-gray-700 '>
+                <p className='font-bold text-gray-700'>Time Active:</p>
+                <p className='font-bold text-gray-700'>
                   {counter > 1000 ? '> 1000' : counter}{' '}
                   <span className='text-sm font-normal text-gray-700'>
                     second{counter > 1 && 's'}

@@ -7,10 +7,12 @@ export const updateUser = async ({ id = '', email = '', changes }) => {
   if (!(email || id)) {
     return { error: 'No user provided for update' };
   }
+
+  const auth = (cookies().get('session_id') || {}).value;
   const response = await fetch(process.env.BACKEND_HOST + '/update_user', {
     method: 'POST',
     headers: {
-      auth: (cookies().get('session_id') || {}).value,
+      ...(auth && { auth }),
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -26,7 +28,6 @@ export const updateUser = async ({ id = '', email = '', changes }) => {
   }
 
   revalidateTag('user');
-
   return data;
 };
 

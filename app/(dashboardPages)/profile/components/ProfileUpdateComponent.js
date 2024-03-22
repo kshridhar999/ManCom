@@ -32,7 +32,7 @@ export default function ProfileUpdateComponent({ user = {} }) {
             key={field.key}
           >
             <div className='flex items-center justify-between space-x-2'>
-              <p className='text-md font-light text-black'>{field.label}</p>
+              <p className='font-light text-black'>{field.label}</p>
               <div className='flex space-x-1'>
                 {isEditPossible && (
                   <>
