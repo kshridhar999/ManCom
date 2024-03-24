@@ -43,6 +43,20 @@ export const signInSchema = z.object({
   password: z.string({ required_error: true }),
 });
 
+export const forgotPwdSchema = z.object({
+  email: emailSchema,
+});
+
+export const resetPwdSchema = z
+  .object({
+    new_password: passwordSchema,
+    confirm_password: z.string(),
+  })
+  .refine((fields) => fields.new_password === fields.confirm_password, {
+    path: ['confirm_password'],
+    message: "Passwords don't match",
+  });
+
 export const udpateUserSchema = z.object({
   first_name: z.string().trim().min(1, 'First name cant be empty').optional(),
   middle_name: z.string().trim().optional(),

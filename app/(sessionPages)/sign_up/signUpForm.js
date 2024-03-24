@@ -92,7 +92,7 @@ const SignUpForm = () => {
 
   return (
     <Form
-      className='flex h-80 w-80 flex-col justify-between space-y-4'
+      className='flex size-80 flex-col justify-between space-y-4'
       onSubmit={handleSubmit(handleSignUp)}
       control={control}
     >
@@ -105,6 +105,7 @@ const SignUpForm = () => {
       <div className='flex w-full flex-row-reverse justify-between space-x-2'>
         {nextPossible ? (
           <Button
+            type='button'
             onClick={() => goForward()}
             className='bg-emerald-600 text-white hover:bg-emerald-800'
           >
@@ -115,6 +116,7 @@ const SignUpForm = () => {
         )}
         {prevPossible && (
           <Button
+            type='button'
             onClick={() => goBack()}
             className='bg-amber-400 text-white hover:bg-amber-700'
           >
