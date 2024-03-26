@@ -57,7 +57,7 @@ const formStates = [
 ];
 
 const ForgotPasswordForm = () => {
-  const [formState, setFormState] = useState(1);
+  const [formState, setFormState] = useState(0);
 
   const handleForgot = async (formData) => {
     const rawData = Object.fromEntries(formData.entries());
